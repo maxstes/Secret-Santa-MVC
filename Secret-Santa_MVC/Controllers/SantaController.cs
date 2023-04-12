@@ -9,7 +9,7 @@ namespace Secret_Santa_MVC.Controllers
         {
             return View();
         }
-        public IActionResult RegisterForm(RoomForm form)
+        public IActionResult RegisterForm(Room form)
         {
 
             return View();
