@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "034+WP8umZrJlkPoLSKIeGF+CnFvHIstOAe+ukOe/Ss=",
+  "Hash": "L1V29qTWtzgLClOWHqbmjdJpw2nXmoWxvyOnWv0AvxU=",
   "Source": "Secret-Santa_MVC",
   "BasePath": "_content/Secret-Santa_MVC",
   "Mode": "Default",
@@ -83,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\Index.html",
+      "SourceId": "Secret-Santa_MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\",
+      "BasePath": "_content/Secret-Santa_MVC",
+      "RelativePath": "Index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Index.html"
     },
     {
       "Identity": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\js\\site.js",

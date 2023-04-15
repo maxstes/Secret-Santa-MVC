@@ -5,11 +5,15 @@ namespace Secret_Santa_MVC.Controllers
 {
     public class SantaController : Controller
     {
+        public IActionResult Test()
+        {
+            return View();
+        }
         public IActionResult Start ()
         {
             return View();
         }
-        public IActionResult RegisterForm(Room form)
+        public IActionResult Register(User user)
         {
 
             return View();

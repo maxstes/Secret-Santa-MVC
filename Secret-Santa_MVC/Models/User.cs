@@ -13,6 +13,9 @@ namespace Secret_Santa_MVC.Models
         public string? Email { get; set; }
         [PasswordPropertyText]
         public string? Password { get; set; }
+        public int Age { get; set; }
+        
+        public string? Role { get; set; }
         //[Compare("Password")]
         //public string? Password1 { get; set; }
 
