@@ -38,6 +38,15 @@ namespace Secret_Santa_MVC.Controllers
             return RedirectToAction("AdminPanel"); 
         }
         [HttpGet]
+        public string TestAction()
+        {
+            var context = ControllerContext.HttpContext;
+#warning koment
+            //if (context.User) ;
+            return "";
+        }
+
+        [HttpGet]
         [Authorize(Roles ="admin")]
         public string AdminPanel()
         {

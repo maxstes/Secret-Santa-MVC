@@ -13,9 +13,9 @@ namespace Secret_Santa_MVC.Controllers
     {
         private readonly SantaDatabase _context;
 
-        public UsersController(SantaDatabase context)
+        public UsersController()
         {
-            _context = context;
+            _context = new SantaDatabase();
         }
 
         // GET: Users

@@ -5,10 +5,6 @@
       "PackagePath": "staticwebassets\\Secret-Santa_MVC.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\Index.html",
-      "PackagePath": "staticwebassets\\Index.html"
-    },
-    {
       "Id": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

@@ -1,14 +1,10 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using Secret_Santa_MVC.Models;
-using NuGet.Configuration;
-using NuGet.Common;
-using System.Net;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
-builder.Services.AddDbContext<SantaDatabase>();
+var connectionString = builder.Configuration.GetConnectionString(@"Server=DESKTOP-HIR5786\SQLEXPRESS;Database=Santa;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+builder.Services.AddDbContext<SantaDatabase>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -75,9 +76,6 @@ app.MapGet("/accessdenied", async (HttpContext context) =>
 
 app.Map("/data", [Authorize] () => new { message = "Hello World" });
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{action=Index}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action}");
