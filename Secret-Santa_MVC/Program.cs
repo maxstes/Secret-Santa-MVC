@@ -1,10 +1,17 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Secret_Santa_MVC.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
+using Secret_Santa_MVC.Data.Entities;
+using Secret_Santa_MVC.OldFiles;
+using Secret_Santa_MVC.Data;
+using Secret_Santa_MVC.Services.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,24 +19,88 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
-var connectionString = builder.Configuration.GetConnectionString(@"Server=DESKTOP-HIR5786\SQLEXPRESS;Database=Santa;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-builder.Services.AddDbContext<SantaDatabase>(options =>
+//var connectionString = builder.Configuration.GetConnectionString(@"Server=DESKTOP-HIR5786\SQLEXPRESS;Database=Santa;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+builder.Services.AddDbContext<SantaContext>();
+//options =>
+//{
+ //   options.UseSqlServer(connectionString);
+//});
+builder.Services.AddCors(c => c.AddPolicy("cors", opt =>
 {
-    options.UseSqlServer(connectionString);
+    opt.AllowAnyHeader();
+    opt.AllowCredentials();
+    opt.AllowAnyMethod();
+    opt.WithOrigins(builder.Configuration.GetSection("Cors:Urls").Get<string[]>()!);
+}));
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
+            ValidAudience = builder.Configuration["Jwt:Audience"]!,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+        };
+    });
+
+builder.Services.AddAuthorization(options => options.DefaultPolicy = 
+    new AuthorizationPolicyBuilder
+        (JwtBearerDefaults.AuthenticationScheme)
+        .RequireAuthenticatedUser()
+        .Build());
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
+    .AddEntityFrameworkStores<SantaContext>()
+    .AddUserManager<UserManager<ApplicationUser>>()
+    .AddSignInManager<SignInManager<ApplicationUser>>();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Pathnostics", Version = "v1" });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme 
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Login/Index";
-        options.AccessDeniedPath = "/accessdenied";
-    });
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/Login/Index";
+//        options.AccessDeniedPath = "/accessdenied";
+//    });
+//builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -37,14 +108,19 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseSwagger();
+app.UseSwaggerUI();
 //app.UseMvc();
 app.UseHttpsRedirection();
+app.UseRouting();
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors("cors");
 
 app.MapGet("/accessdenied", async (HttpContext context) =>
 {
@@ -76,6 +152,13 @@ app.MapGet("/accessdenied", async (HttpContext context) =>
 
 app.Map("/data", [Authorize] () => new { message = "Hello World" });
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action}");
@@ -85,15 +168,15 @@ app.MapControllerRoute(
 
 app.Run();
 
-public class AuthOptions
-{
-    public const string ISSUER = "MyAuthServer";
-    public const string AUDIENCE = "MyAuthClient";
-    const string KEY = "mysupersecret_secretkey!123";
-    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-}
-record class Person(string Email,string Password);
+//public class AuthOptions
+//{
+//    public const string ISSUER = "MyAuthServer";
+//    public const string AUDIENCE = "MyAuthClient";
+//    const string KEY = "mysupersecret_secretkey!123";
+//    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
+//        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
+//}
+//record class Person(string Email,string Password);
 
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    .AddJwtBearer(options =>
