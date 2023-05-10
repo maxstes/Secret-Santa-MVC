@@ -8,9 +8,6 @@ namespace Secret_Santa_MVC.Models.Identity
         [Display(Name = "Email")]
         public string Email { get; set; } = null!;
 
-        [Required]
-        [Display(Name = "Date BirthDay")]
-        public DateTime BirthDate { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

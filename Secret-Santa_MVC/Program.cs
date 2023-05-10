@@ -58,10 +58,16 @@ builder.Services.AddAuthorization(options => options.DefaultPolicy =
         (JwtBearerDefaults.AuthenticationScheme)
         .RequireAuthenticatedUser()
         .Build());
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>(opt =>
+{
+#warning !Костыль 
+    opt.Password.RequireNonAlphanumeric = false;
+})
     .AddEntityFrameworkStores<SantaContext>()
     .AddUserManager<UserManager<ApplicationUser>>()
     .AddSignInManager<SignInManager<ApplicationUser>>();
+   // .AddRoles<IdentityRole>()
+    //.AddRoleManager<RoleManager<IdentityRole>>();
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -152,12 +158,12 @@ app.MapGet("/accessdenied", async (HttpContext context) =>
 
 app.Map("/data", [Authorize] () => new { message = "Hello World" });
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-});
+////app.UseEndpoints(endpoints =>
+////{
+////    endpoints.MapControllerRoute(
+// //       name: "default",
+// //       pattern: "{controller=Home}/{action=Index}/{id?}");
+////});
 
 app.MapControllerRoute(
     name: "default",
@@ -165,6 +171,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Account}/{action=Index}");
 
 app.Run();
 

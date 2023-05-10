@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Secret_Santa_MVC.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Secret_Santa_MVC.Controllers
 {
@@ -17,12 +20,14 @@ namespace Secret_Santa_MVC.Controllers
         private readonly SantaContext _context;
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
-        public AccountController(ITokenService tokenService, SantaContext context, UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        private readonly IServiceProvider _serviceProvider;
+        public AccountController(ITokenService tokenService, SantaContext context, UserManager<ApplicationUser> userManager, IConfiguration configuration, IServiceProvider serviceProvider)
         {
             _userManager = userManager;
             _context = context;
             _tokenService = tokenService;
             _configuration = configuration;
+            _serviceProvider = serviceProvider;
 
         }
         [HttpGet]
@@ -30,9 +35,19 @@ namespace Secret_Santa_MVC.Controllers
         {
             return View();
         }
+        [HttpGet("login")]
+        public IActionResult Authenticate()
+        {
+            return View();
+        }
+        [HttpGet("register")]
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AuthResponse>> Authenticate([FromBody] AuthRequest request)
+        public async Task<ActionResult<AuthResponse>> Authenticate( AuthRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -68,7 +83,7 @@ namespace Secret_Santa_MVC.Controllers
             }); 
         }
         [HttpPost("register")]
-        public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
+        public async Task<ActionResult<AuthResponse>> Register( RegisterRequest request)
         {
             if (!ModelState.IsValid) return BadRequest(request);
 
@@ -76,9 +91,10 @@ namespace Secret_Santa_MVC.Controllers
             {
                 FullName = request.FullName,
                 Email = request.Email,
-                UserName = request.Email
+                UserName = request.Email,
+                DateRegister = DateTime.UtcNow,
             };
-            var result = await _userManager.CreateAsync(user, request.Password);
+            var result = await _userManager.CreateAsync(user,request.Password);
 
             foreach(var error in result.Errors) 
             {
@@ -86,9 +102,19 @@ namespace Secret_Santa_MVC.Controllers
             }
             if(!result.Succeeded) return BadRequest(request);
 
-            var findUser = await _context.Users.FirstOrDefaultAsync(x=> x.Email == request.Email);
 
+            var findUser = await _context.Users.FirstOrDefaultAsync(x=> x.Email == request.Email);
             if (findUser == null) throw new Exception($"User {request.Email} not found");
+           
+            
+     //       IdentityResult identityResult;
+       //     var RoleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        //    var roleExist = await RoleManager.RoleExistsAsync(RoleConsts.Member);
+          //  if (!roleExist)
+           // {
+            //    identityResult = await RoleManager.CreateAsync(new IdentityRole(RoleConsts.Member));
+            //}
+
 
             await _userManager.AddToRoleAsync(findUser, RoleConsts.Member);
 
