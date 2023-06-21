@@ -11,7 +11,8 @@ using Microsoft.OpenApi.Models;
 using Secret_Santa_MVC.Data.Entities;
 using Secret_Santa_MVC.OldFiles;
 using Secret_Santa_MVC.Data;
-using Secret_Santa_MVC.Services.Identity;
+using Secret_Santa_MVC.Services.Interface;
+using Secret_Santa_MVC.Services.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
+
 //var connectionString = builder.Configuration.GetConnectionString(@"Server=DESKTOP-HIR5786\SQLEXPRESS;Database=Santa;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 builder.Services.AddDbContext<SantaContext>();
 //options =>
@@ -32,32 +34,36 @@ builder.Services.AddCors(c => c.AddPolicy("cors", opt =>
     opt.AllowAnyMethod();
     opt.WithOrigins(builder.Configuration.GetSection("Cors:Urls").Get<string[]>()!);
 }));
-
+builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
-            ValidAudience = builder.Configuration["Jwt:Audience"]!,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
-        };
-    });
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
+//            ValidAudience = builder.Configuration["Jwt:Audience"]!,
+//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+//        };
+//    });
 
-builder.Services.AddAuthorization(options => options.DefaultPolicy = 
-    new AuthorizationPolicyBuilder
-        (JwtBearerDefaults.AuthenticationScheme)
-        .RequireAuthenticatedUser()
-        .Build());
+//builder.Services.AddAuthorization(options => options.DefaultPolicy = 
+//    new AuthorizationPolicyBuilder
+//        (JwtBearerDefaults.AuthenticationScheme)
+//        .RequireAuthenticatedUser()
+//        .Build());
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => options.LoginPath = "login");
+builder.Services.AddAuthorization();
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>(opt =>
 {
 #warning !Костыль 
@@ -66,12 +72,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>(opt =>
     .AddEntityFrameworkStores<SantaContext>()
     .AddUserManager<UserManager<ApplicationUser>>()
     .AddSignInManager<SignInManager<ApplicationUser>>();
-   // .AddRoles<IdentityRole>()
-    //.AddRoleManager<RoleManager<IdentityRole>>();
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Pathnostics", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Secret-Santa", Version = "v1" });
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -81,29 +85,23 @@ builder.Services.AddSwaggerGen(options =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme 
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+    //options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    //{
+    //    {
+    //        new OpenApiSecurityScheme 
+    //        {
+    //            Reference = new OpenApiReference
+    //            {
+    //                Type = ReferenceType.SecurityScheme,
+    //                Id = "Bearer"
+    //            }
+    //        },
+    //        new string[]{ }
+    //    }
+    //});
 });
 
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.LoginPath = "/Login/Index";
-//        options.AccessDeniedPath = "/accessdenied";
-//    });
-//builder.Services.AddAuthorization();
+
 
 
 var app = builder.Build();
@@ -128,11 +126,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors("cors");
 
-app.MapGet("/accessdenied", async (HttpContext context) =>
-{
-    context.Response.StatusCode = 403;
-    await context.Response.WriteAsync("Access Denied");
-});
+//app.MapGet("/accessdenied", async (HttpContext context) =>
+//{
+//    context.Response.StatusCode = 403;
+//    await context.Response.WriteAsync("Access Denied");
+//});
 //app.MapPost("/login", (Person loginData) =>
     
 //        Person? person = people.FirstOrDefault(p => p.Email == loginData.Email && p.Password == loginData.Password);
@@ -158,12 +156,7 @@ app.MapGet("/accessdenied", async (HttpContext context) =>
 
 app.Map("/data", [Authorize] () => new { message = "Hello World" });
 
-////app.UseEndpoints(endpoints =>
-////{
-////    endpoints.MapControllerRoute(
-// //       name: "default",
-// //       pattern: "{controller=Home}/{action=Index}/{id?}");
-////});
+
 
 app.MapControllerRoute(
     name: "default",

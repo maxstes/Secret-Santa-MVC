@@ -15,4 +15,17 @@ html {
 
 body {
   margin-bottom: 60px;
+  
+}
+header{
+    background-color:aliceblue;
+    z-index:900;
+    position:fixed;
+    height:56px;
+    width:100%;
+    margin-bottom:60px;
+}
+.Index{
+    padding-top:60px;
+    padding-bottom:15px;
 }

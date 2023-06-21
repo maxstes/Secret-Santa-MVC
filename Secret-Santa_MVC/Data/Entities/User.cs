@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Secret_Santa_MVC.Data.Entities
 {
-    public class User : IdentityUser<long>
+    public class User  //IdentityUser<long>
     {
         [Key]
         public long Id { get; set; }

@@ -41,7 +41,7 @@ namespace Secret_Santa_MVC.Extensions
             var expire = configuration.GetSection("Jwt:Expire").Get<int>();
 
             return new JwtSecurityToken(
-                configuration["Jwt:issuer"],
+                configuration["Jwt:Issuer"],
                 configuration["Jwt:Audience"],
                 claims,
                 expires: DateTime.UtcNow.AddMinutes(expire),

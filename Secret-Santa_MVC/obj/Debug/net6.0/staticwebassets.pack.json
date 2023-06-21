@@ -5,6 +5,18 @@
       "PackagePath": "staticwebassets\\Secret-Santa_MVC.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\Img\\Background1.jpg",
+      "PackagePath": "staticwebassets\\Img\\Background1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\Img\\Christmas Time in South Park.jpg",
+      "PackagePath": "staticwebassets\\Img\\Christmas Time in South Park.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\Img\\Secret_Santa.png",
+      "PackagePath": "staticwebassets\\Img\\Secret_Santa.png"
+    },
+    {
       "Id": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

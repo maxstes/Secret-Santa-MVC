@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Secret_Santa_MVC.Data;
 using Secret_Santa_MVC.Data.Entities;
-using Secret_Santa_MVC.Services.Identity;
+using Secret_Santa_MVC.Services.Interface;
 
 namespace Secret_Santa_MVC.ControllerHelpClass
 {
