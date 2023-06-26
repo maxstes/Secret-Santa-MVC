@@ -25,12 +25,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item Enter_in_account">
+                            @if(User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Test">
+                                    <p>@User.Identity.Name</p>
+                                    </a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">
+                                <p>Enter in account</p>
+                                </a>
+                            }
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="content">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

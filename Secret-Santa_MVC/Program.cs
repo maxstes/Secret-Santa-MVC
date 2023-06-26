@@ -11,8 +11,6 @@ using Microsoft.OpenApi.Models;
 using Secret_Santa_MVC.Data.Entities;
 using Secret_Santa_MVC.OldFiles;
 using Secret_Santa_MVC.Data;
-using Secret_Santa_MVC.Services.Interface;
-using Secret_Santa_MVC.Services.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +32,6 @@ builder.Services.AddCors(c => c.AddPolicy("cors", opt =>
     opt.AllowAnyMethod();
     opt.WithOrigins(builder.Configuration.GetSection("Cors:Urls").Get<string[]>()!);
 }));
-builder.Services.AddScoped<IAppUserService, AppUserService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
 //builder.Services.AddAuthentication(options =>
 //{
 //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

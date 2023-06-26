@@ -9,8 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using Secret_Santa_MVC.Services.Interface;
+using System; 
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace Secret_Santa_MVC.Controllers
@@ -18,18 +17,12 @@ namespace Secret_Santa_MVC.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SantaContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IConfiguration _configuration;
-        private readonly IAppUserService _appUserService;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager,IAppUserService appUserService, SantaContext context, UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _context = context;
-            _configuration = configuration;
-            _appUserService = appUserService;
         }
         [HttpGet]
     public IActionResult Index()
@@ -61,6 +54,7 @@ namespace Secret_Santa_MVC.Controllers
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded) 
             {
+                await _userManager.AddToRoleAsync(user, RoleConsts.Member);
                 await _signInManager.SignInAsync(user, false);
                 Console.WriteLine("Register cuccess");
                 return RedirectToAction("Index", "Account");
@@ -69,11 +63,12 @@ namespace Secret_Santa_MVC.Controllers
 
         }
         [HttpPost("login")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Authenticate(AuthRequest request)
         {
             if (!ModelState.IsValid) { return BadRequest(request); }
             else {
-                var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, false);
                 if (result.Succeeded)
                 {
                     // TODO добавити перевірку URL https://metanit.com/sharp/aspnet5/16.4.php
@@ -84,10 +79,24 @@ namespace Secret_Santa_MVC.Controllers
                 else return BadRequest("Not correct login or (and) password");
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Account");
+        }
         [HttpGet]
         public IActionResult Test()
         {
             return View();
         }
+        [HttpGet]
+        [Authorize]
+        public IActionResult Home()
+        {
+            return View();
+        }
+        
     }
 }

@@ -23,7 +23,8 @@ namespace Secret_Santa_MVC.Data
         //}
 
         public DbSet<Application> Applications { get; set; } = null!;
-        public DbSet<Room> Rooms { get; set; } = null!;
+        public DbSet<RoomCreated> RoomCreated { get; set; } = null!;
+        public DbSet<RoomGuest> RoomGuests { get; set; } = null!;
        // public DbSet<SampleData> SampleDate { get; set; } = null!;
     }
 }

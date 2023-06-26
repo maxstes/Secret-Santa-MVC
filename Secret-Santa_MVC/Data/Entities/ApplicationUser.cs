@@ -7,8 +7,5 @@ namespace Secret_Santa_MVC.Data.Entities
     {
         public string? FullName { get; set; }
         public DateTime DateRegister { get; set; }
-        //TODO Прибрати це лайно що залишилося з токенів
-        public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
     }
 }
