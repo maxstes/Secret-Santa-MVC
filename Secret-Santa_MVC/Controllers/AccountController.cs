@@ -27,6 +27,10 @@ namespace Secret_Santa_MVC.Controllers
         [HttpGet]
     public IActionResult Index()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                RedirectToAction("Test", "Account");   
+            }
             return View();
         }
         [HttpGet("register")]

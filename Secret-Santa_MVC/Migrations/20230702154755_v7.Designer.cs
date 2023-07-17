@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Secret_Santa_MVC.Data;
 
@@ -11,9 +12,11 @@ using Secret_Santa_MVC.Data;
 namespace Secret_Santa_MVC.Migrations
 {
     [DbContext(typeof(SantaContext))]
-    partial class SantaContextModelSnapshot : ModelSnapshot
+    [Migration("20230702154755_v7")]
+    partial class v7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,21 +158,6 @@ namespace Secret_Santa_MVC.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RoomCreatedRoomGuest", b =>
-                {
-                    b.Property<int>("RoomCreatedsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomGuestsIdGuest")
-                        .HasColumnType("int");
-
-                    b.HasKey("RoomCreatedsId", "RoomGuestsIdGuest");
-
-                    b.HasIndex("RoomGuestsIdGuest");
-
-                    b.ToTable("RoomCreatedRoomGuest");
-                });
-
             modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.ApplicationUser", b =>
                 {
                     b.Property<long>("Id")
@@ -287,11 +275,17 @@ namespace Secret_Santa_MVC.Migrations
                     b.Property<string>("NameGuest")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoomCreatedId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Wish")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdGuest");
+
+                    b.HasIndex("RoomCreatedId")
+                        .IsUnique();
 
                     b.ToTable("RoomGuests");
                 });
@@ -347,19 +341,20 @@ namespace Secret_Santa_MVC.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RoomCreatedRoomGuest", b =>
+            modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.RoomGuest", b =>
                 {
-                    b.HasOne("Secret_Santa_MVC.Data.Entities.RoomCreated", null)
-                        .WithMany()
-                        .HasForeignKey("RoomCreatedsId")
+                    b.HasOne("Secret_Santa_MVC.Data.Entities.RoomCreated", "RoomCreated")
+                        .WithOne("RoomGuest")
+                        .HasForeignKey("Secret_Santa_MVC.Data.Entities.RoomGuest", "RoomCreatedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Secret_Santa_MVC.Data.Entities.RoomGuest", null)
-                        .WithMany()
-                        .HasForeignKey("RoomGuestsIdGuest")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("RoomCreated");
+                });
+
+            modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.RoomCreated", b =>
+                {
+                    b.Navigation("RoomGuest");
                 });
 #pragma warning restore 612, 618
         }

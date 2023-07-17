@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Secret_Santa_MVC.Data.Entities;
 using Secret_Santa_MVC.OldFiles;
 using Secret_Santa_MVC.Data;
+using Secret_Santa_MVC.DBClass;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,9 @@ builder.Services.AddMvc();
 builder.Services.AddDbContext<SantaContext>();
 //options =>
 //{
- //   options.UseSqlServer(connectionString);
+//   options.UseSqlServer(connectionString);
 //});
+builder.Services.AddTransient<Commands>();
 builder.Services.AddCors(c => c.AddPolicy("cors", opt =>
 {
     opt.AllowAnyHeader();

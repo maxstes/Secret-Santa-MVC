@@ -6,6 +6,8 @@
     <form method="post" asp-controller="Account" asp-action="Logout">
         <input type="submit" value="Exit"/>
     </form>
+    
+    <a asp-action="Index" asp-controller="Game">Game</a>
 }
 else {
     <a asp-controller="Account" asp-action="Login">Enter</a>

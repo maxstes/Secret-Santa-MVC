@@ -1,0 +1,17 @@
+﻿@using Secret_Santa_MVC.Data.Entities;
+@model IEnumerable<GetRooms>
+
+@if (Model == null || Model.Count() == 0)
+{
+    <p>You don`t have room</p>
+}
+else
+{
+    @foreach (GetRooms r in Model)
+    {
+
+        <p class="room-block">
+            Name Room: @r.NameRoom &nbsp; Count:@r.CountUser
+        </p>
+    }
+}

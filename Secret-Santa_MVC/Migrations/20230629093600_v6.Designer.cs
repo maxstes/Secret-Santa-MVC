@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Secret_Santa_MVC.Data;
 
@@ -11,9 +12,11 @@ using Secret_Santa_MVC.Data;
 namespace Secret_Santa_MVC.Migrations
 {
     [DbContext(typeof(SantaContext))]
-    partial class SantaContextModelSnapshot : ModelSnapshot
+    [Migration("20230629093600_v6")]
+    partial class v6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,19 +158,48 @@ namespace Secret_Santa_MVC.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RoomCreatedRoomGuest", b =>
+            modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.Application", b =>
                 {
-                    b.Property<int>("RoomCreatedsId")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("CassettesCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomGuestsIdGuest")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FragmentCount")
                         .HasColumnType("int");
 
-                    b.HasKey("RoomCreatedsId", "RoomGuestsIdGuest");
+                    b.Property<DateTime?>("ReceivedAt")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("RoomGuestsIdGuest");
+                    b.Property<long?>("RoomId")
+                        .HasColumnType("bigint");
 
-                    b.ToTable("RoomCreatedRoomGuest");
+                    b.Property<int?>("RoomIdRoom")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SampleNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomIdRoom");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Applications");
                 });
 
             modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.ApplicationUser", b =>
@@ -244,6 +276,34 @@ namespace Secret_Santa_MVC.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.Room", b =>
+                {
+                    b.Property<int>("IdRoom")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRoom"));
+
+                    b.Property<float>("Budget")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LinkRoom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameRoom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdRoom");
+
+                    b.ToTable("Room");
+                });
+
             modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.RoomCreated", b =>
                 {
                     b.Property<int>("Id")
@@ -281,17 +341,24 @@ namespace Secret_Santa_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdGuest"));
 
+                    b.Property<int?>("IdRoomId")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdUser")
                         .HasColumnType("int");
+
+                    b.Property<string>("InvateLink")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NameGuest")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Wish")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdGuest");
+
+                    b.HasIndex("IdRoomId");
 
                     b.ToTable("RoomGuests");
                 });
@@ -347,19 +414,28 @@ namespace Secret_Santa_MVC.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RoomCreatedRoomGuest", b =>
+            modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.Application", b =>
                 {
-                    b.HasOne("Secret_Santa_MVC.Data.Entities.RoomCreated", null)
+                    b.HasOne("Secret_Santa_MVC.Data.Entities.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomCreatedsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomIdRoom");
 
-                    b.HasOne("Secret_Santa_MVC.Data.Entities.RoomGuest", null)
+                    b.HasOne("Secret_Santa_MVC.Data.Entities.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("RoomGuestsIdGuest")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.RoomGuest", b =>
+                {
+                    b.HasOne("Secret_Santa_MVC.Data.Entities.RoomCreated", "IdRoom")
+                        .WithMany()
+                        .HasForeignKey("IdRoomId");
+
+                    b.Navigation("IdRoom");
                 });
 #pragma warning restore 612, 618
         }
