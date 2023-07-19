@@ -15,16 +15,27 @@ namespace Secret_Santa_MVC.Controllers
     {
         private readonly SantaContext _context;
         private readonly Commands _commands;
-        public GameController(SantaContext context,Commands commands) 
+        public GameController(SantaContext context, Commands commands)
         {
             _context = context;
             _commands = commands;
         }
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index() => View();
+        public IActionResult Room(int idRoom)
         {
+            string ownerRoom = _commands.CheckFullName(User.Identity.Name).Result;
+            SpecificRoom room = _commands.CheckRoom(idRoom,ownerRoom);
+        
+            return View(room);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Room()
+        {
+
             return View();
         }
+
         [HttpGet("/rooms")]
         public async Task<IActionResult> Rooms()
         {
@@ -50,10 +61,8 @@ namespace Secret_Santa_MVC.Controllers
             
         }
         [HttpGet("/newRoom")]
-        public IActionResult CreateRoom()
-        {
-            return View();
-        }
+        public IActionResult CreateRoom() => View();
+   
         [HttpPost("/newRoom")]
         public async Task<IActionResult> CreateRoom(RoomCreated request)
         {

@@ -75,7 +75,26 @@ namespace Secret_Santa_MVC.DBClass
             .Select(x => x.Id)
             .ToArray ();
         }
-        
+        public SpecificRoom CheckRoom(int roomId,string fullName)
+        {
+            RoomCreated? roomCreated = _context.RoomCreated
+                .Where (x => x.Id == roomId)
+                 .FirstOrDefault();
+            string userName = _context.Users
+                .Where(y => y.FullName == fullName)
+                .Select(y =>y.UserName)
+                .FirstOrDefault();
+
+            if(roomCreated == null)
+            {
+                throw new Exception("CheckRoom method , roomId = null");
+            }
+             SpecificRoom specificRoom = new() { Id = roomId, Name = roomCreated.NameRoom, 
+                 UserName = userName, 
+                 MinPrice = roomCreated.MinPriceGift,
+                 MaxPrice = roomCreated.MaxPriceGift };
+            return specificRoom;
+        }
 
 
     }
