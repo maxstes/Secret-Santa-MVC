@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Secret_Santa_MVC.Data.Entities.RoomGuest>
+<h2>
+    List Users Rooom
+</h2>
+<div>
+    @foreach(var user in Model)
+    {
+        <ul>
+            Name Gamer: @user.NameGuest &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+         Wish User : @user.Wish
+         </ul>
+    }
+</div>

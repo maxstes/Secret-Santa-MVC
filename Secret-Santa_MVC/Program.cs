@@ -6,6 +6,8 @@ using Secret_Santa_MVC.Data.Entities;
 using Secret_Santa_MVC.Data;
 using Secret_Santa_MVC.DBClass;
 using Secret_Santa_MVC.SignalRApp;
+using Secret_Santa_MVC.Tools;
+using Secret_Santa_MVC.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +22,9 @@ builder.Services.AddDbContext<SantaContext>();
 //{
 //   options.UseSqlServer(connectionString);
 //});
+builder.Services.AddTransient<LogicGame>();
 builder.Services.AddTransient<Commands>();
+builder.Services.AddTransient<PlayTools>();
 builder.Services.AddCors(c => c.AddPolicy("cors", opt =>
 {
     opt.AllowAnyHeader();

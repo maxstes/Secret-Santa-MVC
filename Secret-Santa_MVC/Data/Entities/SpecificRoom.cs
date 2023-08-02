@@ -7,6 +7,8 @@
         public string Name { get; set; }
         public float MinPrice { get; set; }
         public float MaxPrice { get; set; }
+        public bool Status { get; set; }
+        public int CountPlayers { get; set; }
 
     }
 }

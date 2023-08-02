@@ -1,12 +1,20 @@
-﻿@model Secret_Santa_MVC.Data.Entities.SpecificRoom
+﻿@addTagHelper *, MvcApp
+@model Secret_Santa_MVC.Data.Entities.SpecificRoom
 
 <body>
 <div>
-<p>Id = @Model.Id Name: @Model.Name
-   Min price on gift = @Model.MinPrice
-   Max price on gift = @Model.MinPrice
-   UserName: @Model.UserName
+    <a asp-controller="Game" asp-action="StartRoom" asp-route-idRoom="@Model.Id">Start Room</a>
+<p>Id = @Model.Id Name: @Model.Name <br />
+   Min price on gift = @Model.MinPrice<br />
+   Max price on gift = @Model.MinPrice<br />
+   UserName: @Model.UserName <br />
+   Room status : @Model.Status <br />
+   Count players : @Model.CountPlayers
 </p>
+</div>
+<div>
+    @await Component.InvokeAsync("RoomInfo",new {id = Model.Id})
+    <p>Id:@Model.Id </p>
 </div>
 
 <div id="loginBlock">
@@ -24,6 +32,13 @@
 
 <div id="chatroom">
 </div>
+@if(Model.CountPlayers % 2 == 0) 
+    {
+       <input type="button"  value="Start Game" /> 
+
+    }
+    <input type="button" id="fakeGameButton" value="Start Game"/>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 <script type="text/javascript">
@@ -33,13 +48,13 @@ let userGroup = "";
             .withUrl("/chat")
             .build();
 
-
+        
+            
 document.getElementById("loginBtn").addEventListener("click",function (e) 
 {
     userName = "@Model.UserName";
     userGroup = "@Model.Id";
     hubConnection.invoke("Enter", userName,userGroup);
-    @{//TODO Fix text entering in chat in room}
 });
 
 document.getElementById("sendBtn").addEventListener("click" , () =>
@@ -52,7 +67,7 @@ document.getElementById("sendBtn").addEventListener("click" , () =>
 
 hubConnection.on("Receive", (message, user) => {
     const userNameElem = document.createElement("b");
-    userNameElem.textContent = '${user}:';
+    userNameElem.textContent = user + " :";
 
     const elem = document.createElement("p");
     elem.appendChild(userNameElem);

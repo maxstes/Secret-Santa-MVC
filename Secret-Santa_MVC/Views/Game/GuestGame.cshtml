@@ -10,8 +10,8 @@ else
     @foreach (GetRooms r in Model)
     {
 
-        <p class="room-block">
-            Name Room: @r.NameRoom &nbsp; Count:@r.CountUser
-        </p>
+        <a asp-controller="Game" asp-action="GuestRoom" asp-route-idRoom="@r.IdRoom">
+            <p class="room-block">Name Room: @r.NameRoom &nbsp; Count:@r.CountUser</p>
+        </a>
     }
 }

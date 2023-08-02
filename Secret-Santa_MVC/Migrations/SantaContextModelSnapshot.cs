@@ -255,6 +255,9 @@ namespace Secret_Santa_MVC.Migrations
                     b.Property<string>("InviteLink")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<float>("MaxPriceGift")
                         .HasColumnType("real");
 
@@ -294,6 +297,32 @@ namespace Secret_Santa_MVC.Migrations
                     b.HasKey("IdGuest");
 
                     b.ToTable("RoomGuests");
+                });
+
+            modelBuilder.Entity("Secret_Santa_MVC.Data.Entities.WhoWhoh", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IdRoom")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserIdWho")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserIdWhoh")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Wish")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WhoWhoh");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>

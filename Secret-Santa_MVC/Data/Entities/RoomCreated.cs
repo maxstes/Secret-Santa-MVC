@@ -11,6 +11,7 @@ namespace Secret_Santa_MVC.Data.Entities
         public string? InviteLink { get; set; }
         public float MaxPriceGift { get; set; }
         public float MinPriceGift { get;set; }
+        public bool IsActive { get; set; }
 
         public List<RoomGuest> RoomGuests { get; set; } = new();
     }
