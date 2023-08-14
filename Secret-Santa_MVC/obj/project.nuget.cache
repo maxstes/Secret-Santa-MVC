@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0S5zVnMmQIBjlQw6Tiyk9t8KTHWG/1nmF4keyij6G5tkZ6xTaRZ9WNX4zC6xcmghT1+IXB8IQY84/nNns4t9kA==",
+  "dgSpecHash": "vcJa2q9QvxPgcRhEQYPiT9TUSsT4E//VSo51zc5PKrgH4ZyEZ9fA0jRGy/LWH2smkLD0A/T4nrKLRYb4vh9Ohg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\Secret-Santa_MVC.csproj",
   "expectedPackageFiles": [
@@ -13,7 +13,10 @@
     "C:\\Users\\Петрик\\.nuget\\packages\\castle.core.asyncinterceptor\\2.1.0\\castle.core.asyncinterceptor.2.1.0.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\castle.loggingfacility\\5.1.2\\castle.loggingfacility.5.1.2.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\castle.windsor\\5.1.2\\castle.windsor.5.1.2.nupkg.sha512",
+    "C:\\Users\\Петрик\\.nuget\\packages\\google.apis\\1.61.0\\google.apis.1.61.0.nupkg.sha512",
+    "C:\\Users\\Петрик\\.nuget\\packages\\google.apis.core\\1.61.0\\google.apis.core.1.61.0.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\Петрик\\.nuget\\packages\\identitymodel\\6.1.0\\identitymodel.6.1.0.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\jetbrains.annotations\\2022.3.1\\jetbrains.annotations.2022.3.1.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\mailkit\\3.4.3\\mailkit.3.4.3.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
@@ -111,6 +114,8 @@
     "C:\\Users\\Петрик\\.nuget\\packages\\nuget.projectmodel\\6.3.1\\nuget.projectmodel.6.3.1.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\nuget.protocol\\6.3.1\\nuget.protocol.6.3.1.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\nuget.versioning\\6.3.1\\nuget.versioning.6.3.1.nupkg.sha512",
+    "C:\\Users\\Петрик\\.nuget\\packages\\oauth2\\0.10.3\\oauth2.0.10.3.nupkg.sha512",
+    "C:\\Users\\Петрик\\.nuget\\packages\\restsharp\\106.12.0\\restsharp.106.12.0.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",

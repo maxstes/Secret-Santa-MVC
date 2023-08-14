@@ -11,14 +11,14 @@ namespace Secret_Santa_MVC.Service
         {
             var emailMessage = new MimeMessage();
 
-            using FileStream openStream = File.OpenRead("Email/Email.json");
+            using FileStream openStream = File.OpenRead("Jsons/Email.json");
             Message? message = 
                 await JsonSerializer.DeserializeAsync<Message>(openStream);
 
 
-            //Sender
-            emailMessage.From.Add(new MailboxAddress("Secret Santa",message?.Email));
-            emailMessage.To.Add(new MailboxAddress("Player", email));//recipient
+
+            emailMessage.From.Add(new MailboxAddress("Secret Santa",message?.Email)); //Sender
+            emailMessage.To.Add(new MailboxAddress("Player", email)); //recipient
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart("Plain")
             {

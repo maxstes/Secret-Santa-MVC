@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
+builder.Services.AddSession();
 builder.Services.AddSignalR();
 //var connectionString = builder.Configuration.GetConnectionString(@"Server=DESKTOP-HIR5786\SQLEXPRESS;Database=Santa;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 builder.Services.AddDbContext<SantaContext>();
@@ -80,7 +81,7 @@ app.UseRouting();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
