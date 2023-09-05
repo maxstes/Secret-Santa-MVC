@@ -44,7 +44,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>(opt =>
 })
     .AddEntityFrameworkStores<SantaContext>()
     .AddUserManager<UserManager<ApplicationUser>>()
-    .AddSignInManager<SignInManager<ApplicationUser>>();
+    .AddSignInManager<SignInManager<ApplicationUser>>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddSwaggerGen(options =>
 {

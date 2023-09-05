@@ -20,7 +20,10 @@ namespace Secret_Santa_MVC.Controllers
         {
             return View();
         }
-
+        public IActionResult Error()
+        {
+            return View();
+        }
         //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
       //  public IActionResult Error()
         //{

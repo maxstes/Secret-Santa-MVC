@@ -4,6 +4,9 @@
 @if (Model == null || Model.Count() == 0)
 {
     <p>You don`t have room</p>
+    <p>
+        <a asp-controller="Game" asp-action="CreateRoom">Do you want to create a new room?</a>
+    </p>
 }
 else
 {

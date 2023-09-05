@@ -192,8 +192,8 @@ namespace Secret_Santa_MVC.Controllers
             if(Rooms.Count == 0) {
                 return BadRequest("You not a have guest rooms");    }
 
-            List<GetRooms> RoomList = _commands.CheckGuestRooms(UserId);
-            return View(RoomList);
+            return View(Rooms);
+            
         }
     }
 }

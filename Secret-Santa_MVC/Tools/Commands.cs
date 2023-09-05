@@ -84,6 +84,7 @@ namespace Secret_Santa_MVC.DBClass
            (roomcreated, guest) => new { cred = roomcreated, RoomGuest = guest })
            .Where(x => x.RoomGuest.IdUser == userId)
            .ToList();
+
             List<GetRooms> RoomList = new();
             foreach (var room in rooms)
             {
@@ -91,8 +92,8 @@ namespace Secret_Santa_MVC.DBClass
                 {
                     IdRoom = room.cred.Id,
                     NameRoom = room.cred.NameRoom,
-                    CountUser = rooms.Count
-                };
+                    CountUser = CheckCountPeople(room.cred.Id)
+            };
                 RoomList.Add(getRooms);
             }
             return RoomList;
