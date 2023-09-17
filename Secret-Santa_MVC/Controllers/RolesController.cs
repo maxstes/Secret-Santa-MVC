@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Secret_Santa_MVC.Data.Entities;
-using Secret_Santa_MVC.Models;
+using Secret_Santa_MVC.Models.Identity;
 
 namespace Secret_Santa_MVC.Controllers
 {

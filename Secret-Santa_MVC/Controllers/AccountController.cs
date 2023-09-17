@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using System; 
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using JetBrains.Annotations;
+using Secret_Santa_MVC.Tools;
 
 namespace Secret_Santa_MVC.Controllers
 {
@@ -64,8 +65,8 @@ namespace Secret_Santa_MVC.Controllers
                 return RedirectToAction("Index", "Account");
             }
             return View(request);
-
         }
+        
         [HttpPost("login")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Authenticate(AuthRequest request)

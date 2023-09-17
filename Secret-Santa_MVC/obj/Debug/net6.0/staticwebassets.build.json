@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "SJ7Mp3qlD9dckXgiqQdLMaWrANtQNDmn0DKd85QtnBs=",
+  "Hash": "dxRLioDpuhOtC8OByHkrnAf8e85gleF7r/LYLjg+95s=",
   "Source": "Secret-Santa_MVC",
   "BasePath": "_content/Secret-Santa_MVC",
   "Mode": "Default",
@@ -1137,23 +1137,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Img\\Christmas Time in South Park.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\Img\\Sad santa.jpg",
-      "SourceId": "Secret-Santa_MVC",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\",
-      "BasePath": "_content/Secret-Santa_MVC",
-      "RelativePath": "Img/Sad santa.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Img\\Sad santa.jpg"
     },
     {
       "Identity": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\wwwroot\\Img\\Secret_Santa.png",
