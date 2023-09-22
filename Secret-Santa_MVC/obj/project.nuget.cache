@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "tqMrsnF9IIHhAr7ud0yI62Mf6yyZPbjmqWZgV39rTbL9QomUfeegG8SBa/tLLbsPMk2m97QwyLFXNA/xunQJcQ==",
+  "dgSpecHash": "0WcvCzmBrOOi/G5EbXGqqF2/a8YSFvXBfZ4IMcRh6L4/rh6ZZyBGfJgPltnOb+k7SBf62V8rVrkcwoHeHRvJfQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Петрик\\source\\repos\\Secret-Santa_MVC\\Secret-Santa_MVC\\Secret-Santa_MVC.csproj",
   "expectedPackageFiles": [
@@ -127,6 +127,7 @@
     "C:\\Users\\Петрик\\.nuget\\packages\\microsoft.netcore.targets\\1.1.3\\microsoft.netcore.targets.1.1.3.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\Петрик\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.18.1\\microsoft.visualstudio.azure.containers.tools.targets.1.18.1.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\microsoft.visualstudio.debugger.contracts\\17.2.0\\microsoft.visualstudio.debugger.contracts.17.2.0.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration\\6.0.16\\microsoft.visualstudio.web.codegeneration.6.0.16.nupkg.sha512",
     "C:\\Users\\Петрик\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.core\\6.0.16\\microsoft.visualstudio.web.codegeneration.core.6.0.16.nupkg.sha512",

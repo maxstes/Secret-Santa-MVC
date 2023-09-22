@@ -11,11 +11,14 @@ namespace Secret_Santa_MVC.Data
     {
         public SantaContext()
         {
-
+            
+        }
+        public SantaContext(DbContextOptions<SantaContext> options):base(options)
+        {
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-HIR5786\SQLEXPRESS;Database=Santa-Identety;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-HIR5786\SQLEXPRESS;Database=Santa-Identety;User Id = sa;Password=Zabiyaka1337;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
         //public SantaContext (DbContextOptions<SantaContext> options) : base (options)
         //{

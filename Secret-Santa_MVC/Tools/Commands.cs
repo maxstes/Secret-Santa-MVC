@@ -2,15 +2,17 @@
 using Secret_Santa_MVC.Data;
 using Secret_Santa_MVC.Data.Entities;
 using Secret_Santa_MVC.Models;
+using System;
 using System.Linq;
 
 namespace Secret_Santa_MVC.DBClass
 {
     public class Commands
     {
-        readonly SantaContext _context;
+        readonly SantaContext _context ;
         public Commands()
         {
+            var x = new ConfigurationBuilder();
             _context = new SantaContext();
         }
         public bool CheckEmail(ApplicationUser user)

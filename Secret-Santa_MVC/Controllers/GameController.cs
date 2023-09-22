@@ -16,7 +16,7 @@ namespace Secret_Santa_MVC.Controllers
     [Authorize]
     public class GameController : Controller
     {
-        private readonly SantaContext _context;
+        private SantaContext _context;
         private readonly Commands _commands;
         private readonly PlayTools _playTools;
         private readonly LogicGame _logic;

@@ -8,6 +8,7 @@ using Secret_Santa_MVC.DBClass;
 using Secret_Santa_MVC.SignalRApp;
 using Secret_Santa_MVC.Tools;
 using Secret_Santa_MVC.Service;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,14 +18,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
 builder.Services.AddSignalR();
 //var connectionString = builder.Configuration.GetConnectionString(@"Server=DESKTOP-HIR5786\SQLEXPRESS;Database=Santa;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-builder.Services.AddDbContext<SantaContext>();
-//options =>
-//{
-//   options.UseSqlServer(connectionString);
-//});
+builder.Services.AddDbContext<SantaContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+    });
 builder.Services.AddTransient<LogicGame>();
 builder.Services.AddTransient<Commands>();
 builder.Services.AddTransient<PlayTools>();
+/*
 builder.Services.AddCors(c => c.AddPolicy("cors", opt =>
 {
     opt.AllowAnyHeader();
@@ -32,7 +32,7 @@ builder.Services.AddCors(c => c.AddPolicy("cors", opt =>
     opt.AllowAnyMethod();
     opt.WithOrigins(builder.Configuration.GetSection("Cors:Urls").Get<string[]>()!);
 }));
-
+*/
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => options.LoginPath = "login");
 builder.Services.AddAuthorization();
