@@ -6,7 +6,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   <PropertyGroup>
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA84IMUVakcEO5kPbeSE0/qwAAAAACAAAAAAAQZgAAAAEAACAAAADIDT6NO1TiOj9JfCCK3CxpYIdt69VtSiswL+TVuDNXpwAAAAAOgAAAAAIAACAAAABntNXWP4oh9FRWEfESDRPvDQxansmLfd/KfNwjuPq2+iAAAAAOtP2S8J+etXYW7LG9Wi6NCrrHMwNQz8JNjaGcYIDKUEAAAAC8sm90ZoGrUGJ4QnoKKckWvfLEmj1FGm4lzS7kQk05e4x01vBSbXSwLq/czXe1Cs6M7yCY7kkSq0qT0+xBjeT3</EncryptedPassword>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <History>True|2023-09-18T15:48:16.0994212Z;True|2023-09-17T12:45:52.4240097+03:00;</History>
+    <History>False|2023-10-18T17:14:05.1472639Z;True|2023-09-18T18:48:16.0994212+03:00;True|2023-09-17T12:45:52.4240097+03:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
