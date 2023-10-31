@@ -1,0 +1,27 @@
+body {
+    padding: 0;
+    margin: 0;
+    padding-top: 60px;
+}
+header {
+    width: 100%;
+    height: 40px;
+    border: 1px solid red;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.content {
+    border: 1px solid black;
+    height: 800px;
+}
+.Enter_in_account{
+     position:absolute;
+     right:30px;
+}
+.room-block
+{
+    border: 0.5px solid black;
+    background-color:greenyellow
+}

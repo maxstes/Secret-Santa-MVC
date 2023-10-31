@@ -61,7 +61,7 @@ namespace Secret_Santa_MVC.Controllers
             {
                 await _userManager.AddToRoleAsync(user, RoleConsts.Member);
                 await _signInManager.SignInAsync(user, false);
-                Console.WriteLine("Register cuccess");
+                Console.WriteLine("Register success");
                 return RedirectToAction("Index", "Account");
             }
             return View(request);
@@ -84,6 +84,7 @@ namespace Secret_Santa_MVC.Controllers
                 else return BadRequest("Not correct login or (and) password");
             }
         }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -91,6 +92,7 @@ namespace Secret_Santa_MVC.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Account");
         }
+        
         [HttpGet]
         public IActionResult Test()
         {
