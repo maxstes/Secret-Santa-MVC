@@ -1,0 +1,21 @@
+﻿@model Secret_Santa_MVC.Data.Entities.RoomCreated
+
+<form asp-action="CreateRoom" asp-controller="Game" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="NameRoom"></label>
+        <input asp-for="NameRoom" />
+        <span asp-validation-for="NameRoom"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MaxPriceGift"></label>
+        <input asp-for="MaxPriceGift" />
+        <span asp-validation-for="MaxPriceGift"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MinPriceGift"></label>
+        <input asp-for="MinPriceGift" />
+        <span asp-validation-for="MinPriceGift"></span>
+    </div>
+    <input type="submit" value="Send" />
+</form>

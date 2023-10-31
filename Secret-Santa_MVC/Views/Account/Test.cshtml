@@ -1,0 +1,16 @@
+﻿<h1> Hello </h1>
+@if(User.Identity.IsAuthenticated)
+{
+    <p>@User.Identity.Name</p>
+
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Exit"/>
+    </form>
+    
+   <p> <a asp-action="Index" asp-controller="Game">Game</a> </p>
+   <p> <a asp-action="Index" asp-controller="AccountSettings">Settings</a> </p>
+}
+else {
+    <a asp-controller="Account" asp-action="Login">Enter</a>
+    <a asp-controller="Account" asp-action="Register">Register</a>
+}

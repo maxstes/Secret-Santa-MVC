@@ -1,0 +1,94 @@
+﻿@addTagHelper *, MvcApp
+@model Secret_Santa_MVC.Data.Entities.SpecificRoom
+
+<body>
+    <div>
+        <p>
+            Id = @Model.Id Name: @Model.Name <br />
+            Min price on gift = @Model.MinPrice<br />
+            Max price on gift = @Model.MinPrice<br />
+            UserName: @Model.UserName <br />
+            Room status : @Model.Status <br />
+            Count players : @Model.CountPlayers
+        </p>
+    </div>
+    <div>
+        @await Component.InvokeAsync("RoomInfo",new {id = Model.Id})
+        <p>Id:@Model.Id </p>
+    </div>
+
+    <div id="loginBlock">
+        <input id="loginBtn" type="button" value="Go to chat">
+    </div>
+
+    <div id="inputForm">
+
+        <label>
+            Message:
+            <input type="text" id="message" />
+        </label>
+        <input type="button" id="sendBtn" value="Send">
+    </div>
+
+
+    <div id="chatroom">
+    </div>
+  
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script type="text/javascript">
+        let userName = "";
+        let userGroup = "";
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/chat")
+            .build();
+
+
+
+        document.getElementById("loginBtn").addEventListener("click", function (e) {
+            userName = "@Model.UserName";
+            userGroup = "@Model.Id";
+            hubConnection.invoke("Enter", userName, userGroup);
+        });
+
+        document.getElementById("sendBtn").addEventListener("click", () => {
+            console.log("End 2 method");
+            const message = document.getElementById("message").value;
+            hubConnection.invoke("Send", message, userName, userGroup)
+                .catch(error => console.error(error));
+
+        });
+
+        hubConnection.on("Receive", (message, user) => {
+            const userNameElem = document.createElement("b");
+            userNameElem.textContent = user + " :";
+
+            const elem = document.createElement("p");
+            elem.appendChild(userNameElem);
+            elem.appendChild(document.createTextNode(message));
+
+            const firstElem = document.getElementById("chatroom").firstChild;
+            document.getElementById("chatroom").insertBefore(elem, firstElem);
+
+            console.log("end 3 method");
+        });
+
+        hubConnection.on("Notify", message => {
+            const elem = document.createElement("p");
+            elem.textContent = message;
+
+            const firstElem = document.getElementById("chatroom").firstChild;
+            document.getElementById("chatroom").insertBefore(elem, firstElem);
+            console.log("end 4 method");
+        });
+
+        hubConnection.start()
+            .then(() => {
+                document.getElementById("sendBtn").disabled = false;
+                document.getElementById("loginBtn").disabled = false;
+            })
+            .catch((err) => console.error(err));
+
+    </script>
+</body>

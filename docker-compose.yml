@@ -1,0 +1,33 @@
+version: '3.4'
+
+networks:
+  SecretSantaMVC:  
+
+services:
+  demoappdb:
+    container_name: app-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+    - 8002:1433
+    environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=Zabiyaka1337
+    networks:
+    - SecretSantaMVC
+      
+  secret-santa_mvc:
+    container_name: secret-santa-mvc
+    image: ${DOCKER_REGISTRY-}secretsantamvc
+    build:
+      context: .
+      dockerfile: Secret-Santa_MVC/Dockerfile
+    ports:
+    - 8001:80
+    depends_on:
+    - demoappdb
+    environment:
+    - DB_HOST=demoappdb
+    - DB_NAME=SecretSantaMVC
+    - DB_SA_PASSWORD=Zabiyaka1337
+    networks:
+    - SecretSantaMVC
