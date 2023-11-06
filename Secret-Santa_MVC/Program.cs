@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Secret_Santa_MVC.Data.Entities;
 using Secret_Santa_MVC.Data;
-using Secret_Santa_MVC.DBClass;
+
 using Secret_Santa_MVC.SignalRApp;
 using Secret_Santa_MVC.Tools;
 using Secret_Santa_MVC.Service;
@@ -22,7 +22,6 @@ builder.Services.AddDbContext<SantaContext>(options => {
     });
 
 builder.Services.AddTransient<LogicGame>();
-builder.Services.AddTransient<Commands>();
 builder.Services.AddTransient<PlayTools>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

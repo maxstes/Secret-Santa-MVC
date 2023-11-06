@@ -9,6 +9,6 @@
         public float MaxPrice { get; set; }
         public bool Status { get; set; }
         public int CountPlayers { get; set; }
-
+        public string? JoinNumber { get; set; }
     }
 }

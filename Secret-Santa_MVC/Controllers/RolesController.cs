@@ -14,8 +14,16 @@ namespace Secret_Santa_MVC.Controllers
             _roleManager = roleManager;
             _userManager = userManager;
         }
-
+        
         public IActionResult Index() => View(_roleManager.Roles.ToList());
+        public async Task<IActionResult> AddDefaultRoles()
+        {
+            await Create("Member");
+            await Create("Admin");
+            await Create("Administrator");
+
+            return View("Index");
+        }
 
         public IActionResult Create() => View();
         [HttpPost]
@@ -86,7 +94,6 @@ namespace Secret_Santa_MVC.Controllers
             else
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
-                var allRoles = _roleManager.Roles.ToList();
                 var addedRoles = roles.Except(userRoles);
                 var removedRoles = userRoles.Except(roles);
 

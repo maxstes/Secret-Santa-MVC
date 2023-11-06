@@ -6,11 +6,7 @@ namespace Secret_Santa_MVC.Tools
 {
     public class UserTools
     {
-        private readonly SantaContext _context;
-        public UserTools()
-        {
-            _context = new SantaContext();
-        }
+        private readonly SantaContext _context = new SantaContext();
         public async Task<ApplicationUser> GetUser(string Name)
         {
             return _context.Users

@@ -4,14 +4,8 @@ using Secret_Santa_MVC.Data.Entities;
 using Secret_Santa_MVC.Data;
 using Secret_Santa_MVC.Models.Identity;
 using Microsoft.EntityFrameworkCore;
-using Secret_Santa_MVC.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.Extensions.DependencyInjection;
-using System; 
-using JetBrains.Annotations;
-using Secret_Santa_MVC.Tools;
 
 namespace Secret_Santa_MVC.Controllers
 {
@@ -64,7 +58,7 @@ namespace Secret_Santa_MVC.Controllers
                 Console.WriteLine("Register success");
                 return RedirectToAction("Index", "Account");
             }
-            return View(request);
+            return BadRequest(result.Errors);
         }
         
         [HttpPost("login")]
@@ -76,8 +70,6 @@ namespace Secret_Santa_MVC.Controllers
                 var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    // TODO добавити перевірку URL https://metanit.com/sharp/aspnet5/16.4.php
-                    // if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl)
                     Console.WriteLine("Login cuccess");
                     return RedirectToAction("Test", "Account");
                 }
