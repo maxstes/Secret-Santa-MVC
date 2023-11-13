@@ -1,4 +1,5 @@
 ﻿using Secret_Santa_MVC.TelegramLog.Commands;
+using Secret_Santa_MVC.TelegramLog.Data;
 using Telegram.Bot;
 
 namespace Secret_Santa_MVC.TelegramLog
@@ -19,12 +20,16 @@ namespace Secret_Santa_MVC.TelegramLog
 
              commandsList = new List<Command>();
              commandsList.Add(new HelloCommand());
-             //TODO: Add more commands
+             commandsList.Add(new StatusCommand());
+            //TODO: Add more commands
 
-             client = new TelegramBotClient(AppSettings.Key);
+            //Webhook 
+            string webhook =
+    $"https://api.telegram.org/bot{AppSettings.Key}/setWebhook?url={AppSettings.Url}/api/message/update";
 
-            var hook = string.Format(AppSettings.Url, "api/message/update");
-            await client.SetWebhookAsync(hook);
+            client = new TelegramBotClient(AppSettings.Key);
+
+            await client.SetWebhookAsync(webhook);
 
              return client;
          }

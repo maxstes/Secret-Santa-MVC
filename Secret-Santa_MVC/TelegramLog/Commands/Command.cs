@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Secret_Santa_MVC.TelegramLog.Data;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace Secret_Santa_MVC.TelegramLog.Commands
@@ -11,7 +12,7 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
 
         public bool Contains(string comand)
         {
-            return comand.Contains(this.Name) && comand.Contains(AppSettings.Name);
+            return comand.Contains(this.Name) || comand.Contains(AppSettings.Name);
         }
     }
 }

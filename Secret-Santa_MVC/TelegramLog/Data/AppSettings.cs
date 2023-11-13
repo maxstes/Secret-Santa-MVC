@@ -1,4 +1,4 @@
-﻿namespace Secret_Santa_MVC.TelegramLog
+﻿namespace Secret_Santa_MVC.TelegramLog.Data
 {
     public class AppSettings
     {
