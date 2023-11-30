@@ -4,9 +4,9 @@ using Telegram.Bot.Types;
 
 namespace Secret_Santa_MVC.TelegramLog.Commands
 {
-    public class StatusCommand : Command
+    public class StatusCommand : BaseCommand
     {
-        public override string Name => "status";
+        public override string Name => CommandNames.StatusCommand;
 
         public override void Execute(Message message, TelegramBotClient client)
         {

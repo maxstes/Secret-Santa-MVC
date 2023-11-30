@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: Secret-Santa_MVC/Dockerfile
     ports:
-    - 8001:80
+    - 7129:80
     depends_on:
     - demoappdb
     environment:

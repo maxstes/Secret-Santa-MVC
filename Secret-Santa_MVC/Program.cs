@@ -10,13 +10,34 @@ using Secret_Santa_MVC.Tools;
 using Secret_Santa_MVC.Service;
 using Microsoft.EntityFrameworkCore;
 using Secret_Santa_MVC.TelegramLog;
+using Secret_Santa_MVC.TelegramLog.Commands;
+using Serilog;
+using Serilog.Settings.Configuration;
+using System.Configuration;
+using Serilog.Events;
+using X.Extensions.Logging.Telegram;
+using TelegramSink;
+using Secret_Santa_MVC.TelegramLog.Commands.CommandExecutor;
+//using NuGet.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+//services.AddSingleton<Bot>();
+//services.AddSingleton<ICommandExecutor, CommandExecutor>();
+
+//new LoggerConfiguration()
+//   .MinimumLevel.Information()
+//   .WriteTo.TeleSink(
+//      telegramApiKey: "",
+//      telegramChatId: "",
+//      minimumLevel: LogEventLevel.Warning)
+//   .CreateLogger();
+services.AddLogging();
 services.AddControllersWithViews();
 services.AddMvc();
 services.AddSignalR();
+
 
 services.AddControllers().AddNewtonsoftJson();
 
@@ -53,13 +74,8 @@ services.AddSwaggerGen(options =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
-
+   
 });
-
-
-//Bot Config
-
-
 
 
 var app = builder.Build();
@@ -79,7 +95,6 @@ app.UseRouting();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors("cors");
@@ -95,6 +110,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}");
+
 await Bot.Get();
-Log.Fatal("Error fatal test");
 app.Run();
+
+
