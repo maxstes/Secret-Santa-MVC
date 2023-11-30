@@ -96,4 +96,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}");
 await Bot.Get();
+Log.Fatal("Error fatal test");
 app.Run();
