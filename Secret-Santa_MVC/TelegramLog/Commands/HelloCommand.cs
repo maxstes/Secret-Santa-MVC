@@ -9,9 +9,15 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
 {
     public class HelloCommand : BaseCommand
     {
+        private readonly TelegramBotClient _client;
+
+        public HelloCommand(Bot telegramBot)
+        {
+            _client = telegramBot.Get().Result;
+        }
         public override string Name => CommandNames.HelloCommand;
 
-        public override void Execute(Message message, TelegramBotClient client)
+        public override void Execute(Message message)
         {
             
             CommandModel model = new CommandModel();
@@ -39,7 +45,7 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
             //logg.LogCritical("Alo");
             
 
-            client.SendTextMessageAsync(model.chatId, "Hello!", replyToMessageId:model.messageId);
+            _client.SendTextMessageAsync(model.chatId, "Hello!", replyToMessageId:model.messageId);
         }
     }
 }

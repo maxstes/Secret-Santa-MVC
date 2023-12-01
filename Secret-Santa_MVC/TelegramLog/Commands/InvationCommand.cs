@@ -6,9 +6,15 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
 {
     public class InvationCommand : BaseCommand
     {
+        private readonly TelegramBotClient _client;
+
+        public InvationCommand(Bot telegramBot)
+        {
+            _client = telegramBot.Get().Result;
+        }
         public override string Name => CommandNames.InvationCommand;
 
-        public override void Execute(Message message, TelegramBotClient client)
+        public override void Execute(Message message)
         {
             CommandModel commandModel = new();
             //commandModel.messageId = message.MessageId;
@@ -16,7 +22,7 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
             string botMessage = "Hello, thanks for the invitation";
 
 
-            client.SendTextMessageAsync(commandModel.chatId,botMessage);
+            _client.SendTextMessageAsync(commandModel.chatId,botMessage);
         }
     }
 }

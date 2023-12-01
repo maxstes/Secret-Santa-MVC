@@ -7,22 +7,14 @@ namespace Secret_Santa_MVC.TelegramLog
     public class Bot
     {
         //TODO: try create services with this class
-        private static TelegramBotClient? client { get; set; }
-         private static List<BaseCommand>? commandsList;
+        private TelegramBotClient client;
 
-         public static IReadOnlyList<BaseCommand> Command => commandsList.AsReadOnly();
-
-         public static async Task<TelegramBotClient> Get()
+         public async Task<TelegramBotClient> Get()
          {
              if(client != null) 
              { 
                  return client;
              }
-
-            commandsList = new List<BaseCommand>();
-            commandsList.Add(new HelloCommand());
-            commandsList.Add(new StatusCommand());
-            //TODO: Add more commands
 
             //Webhook 
             string webhook =
@@ -31,7 +23,8 @@ namespace Secret_Santa_MVC.TelegramLog
             client = new TelegramBotClient(AppSettings.Key);
 
             await client.SetWebhookAsync(webhook);
-             return client;
+
+            return client;
          }
      
     }

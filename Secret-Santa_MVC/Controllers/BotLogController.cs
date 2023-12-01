@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Secret_Santa_MVC.TelegramLog;
 using Secret_Santa_MVC.TelegramLog.Commands;
+using Secret_Santa_MVC.TelegramLog.Commands.CommandExecutor;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -9,42 +10,27 @@ using Telegram.Bot.Types.Enums;
 namespace Secret_Santa_MVC.Controllers
 {
     //TODO: move the  logbot to a separate application
-     //webhook uri part
+    //webhook uri part
     public class BotLogController : ControllerBase
     {
-    [Route(@"api/message/update")]
-        public async Task<OkResult> Update([FromBody]Update update)
+        private readonly ICommandExecutor _commandExecutor;
+        public BotLogController(ICommandExecutor commandExecutor)
         {
-            
-            var commands = Bot.Command;
-            var message = update.Message;
-            if (message == null)
-            {
-                return Ok();
-            }
-            var client = await Bot.Get();
+            _commandExecutor = commandExecutor;
+        }
+        [Route(@"api/message/update")]
+        public async Task<OkResult> Update([FromBody] Update update)
+        {
+
             MessageType? messageType = update.Message.Type;
 
-            if(messageType != MessageType.Text)
+            if (messageType != MessageType.Text || update.Message == null)
             {
                 return Ok();
             }
-            
+            await _commandExecutor.Execute(update);
+            return Ok();
 
-             await SelectCommand(message,commands, client);
-            return Ok(); 
-        }
-        public async Task SelectCommand(Message message,IReadOnlyList<BaseCommand> commands,TelegramBotClient client)
-        {
-            foreach (var command in commands)
-            {
-
-                if (command.Contains(message.Text))
-                {
-                    command.Execute(message, client);
-                    break;
-                }
-            }
         }
     }
 }

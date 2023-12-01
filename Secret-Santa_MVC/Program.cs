@@ -23,9 +23,11 @@ using Secret_Santa_MVC.TelegramLog.Commands.CommandExecutor;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-//services.AddSingleton<Bot>();
-//services.AddSingleton<ICommandExecutor, CommandExecutor>();
-
+services.AddSingleton<Bot>();
+services.AddSingleton<ICommandExecutor, CommandExecutor>();
+services.AddSingleton<BaseCommand, HelloCommand>();
+services.AddSingleton<BaseCommand,StatusCommand>();
+services.AddSingleton<BaseCommand,InvationCommand>();
 //new LoggerConfiguration()
 //   .MinimumLevel.Information()
 //   .WriteTo.TeleSink(
@@ -110,8 +112,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}");
-
-await Bot.Get();
+app.Services.GetRequiredService<Bot>().Get().Wait();
 app.Run();
 
 
