@@ -18,6 +18,10 @@ using Serilog.Events;
 using X.Extensions.Logging.Telegram;
 using TelegramSink;
 using Secret_Santa_MVC.TelegramLog.Commands.CommandExecutor;
+using Secret_Santa_MVC.TelegramLog.Data;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Options;
+using Secret_Santa_MVC.TelegramLog.Services;
 //using NuGet.Common;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,20 +29,20 @@ var services = builder.Services;
 
 services.AddSingleton<Bot>();
 services.AddSingleton<ICommandExecutor, CommandExecutor>();
+//Comands bot
 services.AddSingleton<BaseCommand, HelloCommand>();
 services.AddSingleton<BaseCommand,StatusCommand>();
 services.AddSingleton<BaseCommand,InvationCommand>();
-//new LoggerConfiguration()
-//   .MinimumLevel.Information()
-//   .WriteTo.TeleSink(
-//      telegramApiKey: "",
-//      telegramChatId: "",
-//      minimumLevel: LogEventLevel.Warning)
-//   .CreateLogger();
-services.AddLogging();
+
 services.AddControllersWithViews();
 services.AddMvc();
 services.AddSignalR();
+services.AddLogging(builder =>
+{
+    builder.AddTelegBotLog();
+});
+
+
 
 
 services.AddControllers().AddNewtonsoftJson();
@@ -112,7 +116,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}");
-app.Services.GetRequiredService<Bot>().Get().Wait();
-app.Run();
+await app.Services.GetRequiredService<Bot>().Get().WaitAsync(TimeSpan.FromSeconds(5));
+
+await app.RunAsync();
 
 

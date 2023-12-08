@@ -10,10 +10,13 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
     public class HelloCommand : BaseCommand
     {
         private readonly TelegramBotClient _client;
+        private readonly ILogger<HelloCommand> _logger;
 
-        public HelloCommand(Bot telegramBot)
+        public HelloCommand(Bot telegramBot, ILogger<HelloCommand> logger)
         {
             _client = telegramBot.Get().Result;
+            _logger = logger;
+            _logger.LogInformation("Test");
         }
         public override string Name => CommandNames.HelloCommand;
 
@@ -24,26 +27,11 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
 
             model.chatId = message.Chat.Id;
             model.messageId = message.MessageId;
-            
+
             //tryed withraw via bot
-            //TODO: Command logic -_-
-            //var options = new TelegramLoggerOptions
-            //{
-            //    AccessToken = "",
-            //    ChatId = Convert.ToString(model.chatId),
-            //    //LogLevel = LogEventLevel.Warning,
-            //    Source = "human readable project name", 
-            //};
-            //var factory = LoggerFactory.Create(builder =>
-            //{
-            //    builder
-            //        .ClearProviders()
-            //        .AddTelegram(options)
-            //        .AddConsole();
-            //});
-            //var logg = factory.CreateLogger<HelloCommand>();
-            //logg.LogCritical("Alo");
-            
+            _logger.LogCritical("Test crit"); 
+
+
 
             _client.SendTextMessageAsync(model.chatId, "Hello!", replyToMessageId:model.messageId);
         }
