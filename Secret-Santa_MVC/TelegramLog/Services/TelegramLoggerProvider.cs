@@ -5,6 +5,7 @@
     using Secret_Santa_MVC.TelegramLog.Commands;
     using System;
     using Telegram.Bot;
+    using X.Extensions.Logging.Telegram;
 
     public class TelegramLoggerProvider : ILoggerProvider
     {

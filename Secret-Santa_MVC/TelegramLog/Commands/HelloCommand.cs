@@ -1,9 +1,6 @@
 ﻿using Secret_Santa_MVC.TelegramLog.Data;
-using Serilog;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using X.Extensions.Logging.Telegram;
-using NgrokExtensions;
 
 namespace Secret_Santa_MVC.TelegramLog.Commands
 {
@@ -16,7 +13,6 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
         {
             _client = telegramBot.Get().Result;
             _logger = logger;
-            _logger.LogInformation("Test");
         }
         public override string Name => CommandNames.HelloCommand;
 
@@ -25,7 +21,7 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
             
             CommandModel model = new CommandModel();
 
-            model.chatId = message.Chat.Id;
+             model.chatId = message.Chat.Id;
             model.messageId = message.MessageId;
 
             //tryed withraw via bot

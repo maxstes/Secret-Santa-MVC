@@ -13,11 +13,13 @@ namespace Secret_Santa_MVC.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<AccountController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _logger = logger;
         }
         [HttpGet]
     public IActionResult Index()
@@ -55,7 +57,7 @@ namespace Secret_Santa_MVC.Controllers
             {
                 await _userManager.AddToRoleAsync(user, RoleConsts.Member);
                 await _signInManager.SignInAsync(user, false);
-                Console.WriteLine("Register success");
+                _logger.LogInformation($"{request.Email} Register");
                 return RedirectToAction("Index", "Account");
             }
             return BadRequest(result.Errors);
@@ -70,7 +72,7 @@ namespace Secret_Santa_MVC.Controllers
                 var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    Console.WriteLine("Login cuccess");
+                    _logger.LogInformation($"Authenticate {request.Email}");
                     return RedirectToAction("Test", "Account");
                 }
                 else return BadRequest("Not correct login or (and) password");
@@ -82,6 +84,7 @@ namespace Secret_Santa_MVC.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            _logger.LogInformation($"{User?.Identity?.Name} Log Out");
             return RedirectToAction("Index", "Account");
         }
         

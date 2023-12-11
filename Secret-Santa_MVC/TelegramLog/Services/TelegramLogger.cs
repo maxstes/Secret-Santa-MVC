@@ -1,5 +1,4 @@
-﻿using Telegram.Bot.Types;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Secret_Santa_MVC.TelegramLog.Data;
 
 namespace Secret_Santa_MVC.TelegramLog.Services
@@ -15,7 +14,7 @@ namespace Secret_Santa_MVC.TelegramLog.Services
             _logLevel = logLevel;
         }
 
-        public IDisposable BeginScope<TState>(TState state) => null;
+        public IDisposable? BeginScope<TState>(TState state) => null;
 
         public bool IsEnabled(LogLevel logLevel) => logLevel >= _logLevel;
 
@@ -29,5 +28,6 @@ namespace Secret_Santa_MVC.TelegramLog.Services
             // Отправка сообщения в Телеграм
             await _botClient.SendTextMessageAsync(AppSettings.MyChatId, logMessage);
         }
+
     }
 }

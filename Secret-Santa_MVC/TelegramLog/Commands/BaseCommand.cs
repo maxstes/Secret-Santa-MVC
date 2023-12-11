@@ -13,7 +13,7 @@ namespace Secret_Santa_MVC.TelegramLog.Commands
         public abstract void Execute(Message message);
         public bool Contains(string command)
         {
-            return command.Contains(this.Name) || command.Contains(AppSettings.Name);
+            return command.Contains(this.Name);
         }
         
 

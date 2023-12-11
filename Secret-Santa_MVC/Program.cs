@@ -11,29 +11,23 @@ using Secret_Santa_MVC.Service;
 using Microsoft.EntityFrameworkCore;
 using Secret_Santa_MVC.TelegramLog;
 using Secret_Santa_MVC.TelegramLog.Commands;
-using Serilog;
-using Serilog.Settings.Configuration;
-using System.Configuration;
-using Serilog.Events;
-using X.Extensions.Logging.Telegram;
-using TelegramSink;
 using Secret_Santa_MVC.TelegramLog.Commands.CommandExecutor;
-using Secret_Santa_MVC.TelegramLog.Data;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Extensions.Options;
 using Secret_Santa_MVC.TelegramLog.Services;
+using Secret_Santa_MVC.Ngrok;
 //using NuGet.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+services.AddSingleton<NgrokPublicUrlReader>();
 services.AddSingleton<Bot>();
 services.AddSingleton<ICommandExecutor, CommandExecutor>();
 //Comands bot
-services.AddSingleton<BaseCommand, HelloCommand>();
+services.AddSingleton<BaseCommand,HelloCommand>();
 services.AddSingleton<BaseCommand,StatusCommand>();
 services.AddSingleton<BaseCommand,InvationCommand>();
 
+//services.AddTransient<TelegramLogger>();
 services.AddControllersWithViews();
 services.AddMvc();
 services.AddSignalR();
@@ -116,6 +110,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}");
+
+await app.Services.GetRequiredService<NgrokPublicUrlReader>().InstallPublicUrl();
 await app.Services.GetRequiredService<Bot>().Get().WaitAsync(TimeSpan.FromSeconds(5));
 
 await app.RunAsync();
